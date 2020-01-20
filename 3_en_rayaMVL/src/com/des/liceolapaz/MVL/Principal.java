@@ -19,6 +19,7 @@ public class Principal {
         char[][] tablero = new char[3][3];
         boolean turno = true;
 
+
         int fila = 0;
         int columna = 0;
 
@@ -42,8 +43,17 @@ public class Principal {
 
             mostrarTableroEnPartida(tablero);
 
-            if (hayUnGanadorPorFila(tablero, fila) || hayUnGanadorPorColumna(tablero, fila) || hayUnGanadorPorDiagonalPrincipal(tablero, defecto)) {
-                System.out.println("Logrado!");
+            if (hayUnGanadorPorColumna(tablero, fila, columna, defecto) || hayUnGanadorPorDiagonalPrincipal(tablero, defecto, fila, columna) || hayUnGanadorPorFila(tablero,columna,fila,defecto)
+            || hayUnGanadorPorDiagonalInversa(tablero,defecto,fila,columna) || matrizLlena(tablero,defecto)) {
+                if (turno){
+                    System.out.println("Ha ganado el Jugador 1!");
+                    break;
+                }else{
+                    System.out.println("Ha ganado el Jugador 2!");
+                    break;
+                }
+
+
             }
 
 
@@ -51,7 +61,6 @@ public class Principal {
 
         }
     }
-
 
     private static void mostrarTurno(boolean turno) {
         if (turno) {
@@ -87,7 +96,7 @@ public class Principal {
     private static boolean validarPosicion(char[][] tablero, char defecto, int fila, int columna) {
 
 
-        if (fila >= 0 && fila <= 3 && columna >= 0 && columna <= 3 && tablero[fila][columna] == defecto) {
+        if (fila >= 0 && fila < 3 && columna >= 0 && columna < 3 && tablero[fila][columna] == defecto) {
             return true;
         } else {
             System.out.println("Seleccione una posición válida! ");
@@ -121,54 +130,61 @@ public class Principal {
         }
     }
 
-    private static boolean hayUnGanadorPorFila(char[][] tablero, int columna) {
+    private static boolean hayUnGanadorPorFila(char[][] tablero, int columna, int fila, char defecto) {
 
-        if (tablero[0][columna] == tablero[1][columna] && tablero[1][columna] == tablero[2][columna]) {
+        if (tablero[0][columna] == tablero[1][columna] && tablero[1][columna] == tablero[2][columna] && tablero[fila][columna] != defecto) {
             return true;
 
         } else
             return false;
     }
 
+    private static boolean hayUnGanadorPorColumna(char[][] tablero, int fila, int columna, char defecto) {
 
-    private static boolean hayUnGanadorPorColumna(char[][] tablero, int fila) {
-
-        if (tablero[fila][0] == tablero[fila][1] && tablero[fila][1] == tablero[fila][2]) {
+        if (tablero[fila][0] == tablero[fila][1] && tablero[fila][1] == tablero[fila][2] && tablero[fila][columna] != defecto) {
             return true;
 
         } else
             return false;
     }
 
-    private static boolean hayUnGanadorPorDiagonalPrincipal(char[][] tablero, char defecto) {
+    private static boolean hayUnGanadorPorDiagonalPrincipal(char[][] tablero, char defecto, int fila, int columna) {
 
-        if (tablero[0][0] == tablero[1][1] && tablero[1][1] == tablero[2][2] && tablero[0][0] != defecto) {
+        if (tablero[0][0] != defecto && tablero[0][0] == tablero[1][1] && tablero[1][1] == tablero[2][2]) {
             return true;
 
-        }
-
-
-    else {
-        return false;
-    }
-
-    }
-
-    private static boolean hayUnGanadorPorDiagonalInversa(char[][] tablero, char defecto) {
-
-        if (tablero[0][0] == tablero[1][1] && tablero[1][1] == tablero[2][2] && tablero[0][0] != defecto) {
-            return true;
-
-        }
-
-
-        else {
+        } else {
             return false;
         }
 
     }
 
+    private static boolean hayUnGanadorPorDiagonalInversa(char[][] tablero, char defecto, int fila, int columna) {
+
+        if ((tablero[0][2] == tablero[1][1]) && (tablero[1][1] == tablero[2][0]) && (tablero[2][0] != defecto)) {
+            return true;
+
+        } else {
+            return false;
+        }
+
+    }
+
+    private static boolean matrizLlena(char[][] tablero, char defecto){
+        for (int i = 0; i <tablero.length ; i++) {
+            for (int j = 0; j <tablero.length ; j++) {
+               if (tablero[i][j] == defecto){
+                   return false;
+                }
+            }
+        }
+return true;
+    }
+
+
+    }
 
 
 
-}
+
+
