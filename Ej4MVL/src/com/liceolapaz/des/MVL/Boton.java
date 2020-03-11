@@ -7,15 +7,8 @@ public class Boton extends JButton {
     private int fila;
     private int columna;
     private int numeroBoton;
-
-
-
     private boolean pulsado;
     private Tablero tablero;
-
-
-
-
 
     public Boton ( Tablero tablero, int fila, int columna, int numeroBoton, boolean pulsado ) {
         this.fila = fila;
@@ -24,12 +17,14 @@ public class Boton extends JButton {
         this.pulsado = pulsado;
         this.tablero = tablero;
         setNumeroBoton ( numeroBoton );
-        setBackground ( Color.PINK );
-
+        if (!isPulsado ( )) {
+            setBackground ( Color.PINK );
+        } else {
+            setBackground ( Color.blue );
+            this.setEnabled ( false );
+        }
         pulsar ( );
     }
-
-
 
     private void pulsar ( ) {
         this.addActionListener ( actionEvent -> {
@@ -54,16 +49,8 @@ public class Boton extends JButton {
         return fila;
     }
 
-    public void setFila ( int fila ) {
-        this.fila = fila;
-    }
-
     public int getColumna ( ) {
         return columna;
-    }
-
-    public void setColumna ( int columna ) {
-        this.columna = columna;
     }
 
     public int getNumeroBoton ( ) {
@@ -81,8 +68,5 @@ public class Boton extends JButton {
     public void setPulsado ( boolean pulsado ) {
         this.pulsado = pulsado;
     }
-
-
-
 
 }
